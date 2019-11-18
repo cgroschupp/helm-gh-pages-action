@@ -11,6 +11,10 @@ inputs:
     description: "The branch expected by GitHub to have the static files needed for your site."
     required: false
     default: "master"
+  remote-deploy-branch:
+    description: "The branch expected by GitHub to have the static files needed for your site."
+    required: false
+    default: "master"
   charts-folder:
     description: "The folder in which the helm charts are located"
     required: false

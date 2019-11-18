@@ -28,6 +28,8 @@ async function run() {
     const deployBranch = core.getInput('deploy-branch');
     if (!deployBranch) deployBranch = 'master';
 
+    const remoteDeployBranch = core.getInput('remote-deploy-branch');
+
     const chartsDir = core.getInput('charts-folder');
 
     if (github.context.ref === `refs/heads/${deployBranch}`) {
@@ -43,7 +45,7 @@ async function run() {
     console.log(
       'You can configure the deploy branch by setting the `deploy-branch` input for this action.'
     );
-    await exec.exec(`git clone`, ['-b', deployBranch, repoURL, 'output'], {
+    await exec.exec(`git clone`, ['-b', remoteDeployBranch, repoURL, 'output'], {
       cwd: './',
     });
     await exec.exec(`git config user.name`, [github.context.actor], {
@@ -98,7 +100,7 @@ async function run() {
       ['-m', `deployed via ⎈ Helm Publish Action for ${github.context.sha}`],
       { cwd: './output' }
     );
-    await exec.exec(`git push`, ['-u', 'origin', `${deployBranch}`], {
+    await exec.exec(`git push`, ['-u', 'origin', `${remoteDeployBranch}`], {
       cwd: './output',
     });
     console.log('Finished deploying your site.');
